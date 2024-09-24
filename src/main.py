@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, status, Response
+from fastapi import FastAPI, UploadFile, status, Response, BackgroundTasks
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -42,7 +42,9 @@ async def get_report():
         400: {"model": ErrorMessage, "description": "Bad file uploaded"},
     },
 )
-async def create_upload_file(file: UploadFile, response: Response):
+async def post_transactions(
+    file: UploadFile, response: Response, background_tasks: BackgroundTasks
+):
     """
     This endpoint is used to upload a CSV file to the server.
     This file should be formatted as a CSV file with the following columns:
@@ -55,9 +57,14 @@ async def create_upload_file(file: UploadFile, response: Response):
             "error": "The file must be a CSV file",
         }
 
-    # Read the file and print first 10 lines
+    # Read the file
     contents = await file.read()
-    lines = contents.decode().split("\n")
-    print(lines)
+    # Pass the contents to a different function to process the CSV file asynchrounously
+    background_tasks.add_task(process_csv_file, contents)
 
     return FileUploadSuccessMessage(message="CSV received and processed")
+
+
+def process_csv_file(contents: bytes):
+    # This function would be used to process the CSV file asynchronously
+    print("Processing CSV file")
