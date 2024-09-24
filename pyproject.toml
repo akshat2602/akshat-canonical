@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "canonical-test-summer-break"
+version = "0.1.0"
+description = ""
+authors = ["Akshat Sharma <akshatsharma2602@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = { extras = ["standard"], version = "^0.115.0" }
+uvicorn = "^0.30.6"
+pydantic-settings = "^2.5.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+# 'extend-exclude' excludes files or directories in addition to the defaults
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+)/
+'''
