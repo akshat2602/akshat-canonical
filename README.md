@@ -26,7 +26,7 @@ docker build -t canonical .
 The API server is built using fastAPI. Use the following command to run the API server:
 
 ```bash
-poetry install && poetry run fastapi dev src/main.py --host 0.0.0.0 --port 5000
+poetry run fastapi dev src/main.py --host 0.0.0.0 --port 5000
 ```
 
 This starts up an API server on port 5000 and you can visit [http://localhost:5000](http://localhost:5000/docs) to look at the APIs that the API server supports(according to INSTRUCTIONS.md).
